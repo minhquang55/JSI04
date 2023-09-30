@@ -1,4 +1,4 @@
-const todos = [
+let todos = [
   {
     id: 1,
     title: "delectus aut autem",
@@ -37,12 +37,17 @@ const renderTodoList = () => {
     liElm.innerHTML = todo.title;
     const spanElm = document.createElement('span');
     spanElm.textContent = '×';
+    spanElm.addEventListener('click', () => handleDeleteTodo(todo.id))
     liElm.appendChild(spanElm);
     listContainer.appendChild(liElm);
   })
 }
 
 const handleAddTodo = () => {
+  if(inputBox.value === "") {
+    alert('Ban chua nhap todo');
+    return;
+  }
   todos.push({
     id: Math.floor(Math.random() * 10000),
     title: inputBox.value,
@@ -50,6 +55,12 @@ const handleAddTodo = () => {
   })
   renderTodoList();
   inputBox.value = "";
+}
+
+const handleDeleteTodo = (deleteId) => {
+  // Xoa todo co id = deleteId
+  todos = todos.filter((todo) => todo.id !== deleteId);
+  renderTodoList();
 }
 
 addBtn.addEventListener('click', handleAddTodo);
